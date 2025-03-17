@@ -2,6 +2,7 @@
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
+const radios = [{name: 'test'}, {name: 'test2'}]
 
 function toggleTheme () {
     theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
@@ -12,6 +13,8 @@ function toggleTheme () {
     <v-responsive class="border rounded" max-height="300">
         <v-app :theme="theme.global.name.value">
             <v-app-bar class="px-3">
+                <v-app-bar-title>Radio Listener</v-app-bar-title>
+
                 <v-spacer></v-spacer>
   
                 <v-btn
