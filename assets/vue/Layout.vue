@@ -10,7 +10,7 @@ function toggleTheme () {
 </script>
 
 <template>
-    <v-responsive class="border rounded" max-height="300">
+    <v-responsive class="border rounded">
         <v-app :theme="theme.global.name.value">
             <v-app-bar class="px-3">
                 <v-app-bar-title>Radio Listener</v-app-bar-title>

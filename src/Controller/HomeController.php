@@ -13,9 +13,8 @@ final class HomeController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
     )
-    {
-    }
-    
+    {}
+      
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
