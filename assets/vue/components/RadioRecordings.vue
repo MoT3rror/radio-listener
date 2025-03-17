@@ -1,25 +1,51 @@
 <script setup>
-    import { ref, watchEffect } from 'vue';
+    import { computed, ref, watchEffect } from 'vue';
     
     const { radio, date } = defineProps({
         radio: Object,
         date: Date,
     })
     const recordings = ref([])
+    const opened = ref(true)
+
+    let recordsByHour = computed(() => {
+        let map = [...new Array(24)].map(x => [])
+
+        recordings.value.forEach(element => {
+            map[(new Date(element.recording_start).getHours())].push(element)
+        })
+
+        return map
+    })
 
     watchEffect(() => {
         fetch(`/api/radio/${radio.id}/recordings?date=${date.toISOString()}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                recordings.value = data.recordings
+                recordings.value = data.data
             })
     })
 </script>
 
 <template>
     <h2>Radio Recordings</h2>
-    <p>Radio: {{ radio.name }}</p>
-    <p>Date: {{ date }}</p>
-    <p>Recordings: {{ recordings }}</p>
-</template>
+
+    <template v-for="(recordings, index) in recordsByHour" :key="index">
+        <v-list v-if="recordings.length > 0">
+            <v-list-group :value="index">
+                <template v-slot:activator="{ props }">
+                    <v-list-item
+                        v-bind="props"
+                        :title="index"
+                    ></v-list-item>
+                </template>
+                <v-list-item
+                    v-for="(recording, i) in recordings"
+                    :key="recording.id"
+                    :title="recording.recording_start + ' - ' + recording.recording_end"
+                    :value="recording.id"
+                ></v-list-item>
+            </v-list-group>
+        </v-list>
+    </template>
+</template> 

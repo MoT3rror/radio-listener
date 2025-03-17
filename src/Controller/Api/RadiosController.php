@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use DateTime;
+use App\JsonRepresentative\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,18 +19,18 @@ final class RadiosController extends AbstractController
             'data' => [
                 [
                     'id' => 1,
-                    'record_start' => new DateTime(),
-                    'record_end' => new DateTime(),
+                    'recording_start' => new Date()->modify('-4 hours'),
+                    'recording_end' => new Date()->modify('-4 hours')->modify('+30 seconds'),
                 ],
                 [
                     'id' => 2,
-                    'record_start' => new DateTime(),
-                    'record_end' => new DateTime(),
+                    'recording_start' => new Date()->modify('-4 hours')->modify('+1 minute'),
+                    'recording_end' => new Date()->modify('-4 hours')->modify('+30 seconds')->modify('+1 minute'),
                 ],
                 [
                     'id' => 3,
-                    'record_start' => new DateTime(),
-                    'record_end' => new DateTime(),
+                    'recording_start' => new Date(),
+                    'recording_end' => new Date(),
                 ],
             ],
         ]);
