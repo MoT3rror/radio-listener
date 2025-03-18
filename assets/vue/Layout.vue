@@ -2,7 +2,6 @@
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
-const radios = [{name: 'test'}, {name: 'test2'}]
 
 function toggleTheme () {
     theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'

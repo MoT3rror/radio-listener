@@ -40,6 +40,9 @@
                     ></v-list-item>
                 </template>
                 <v-list-item
+                    title="Download hourly recording"
+                ></v-list-item>
+                <v-list-item
                     v-for="(recording, i) in recordings"
                     :key="recording.id"
                     :title="recording.recording_start + ' - ' + recording.recording_end"
