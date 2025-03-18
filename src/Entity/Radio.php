@@ -19,13 +19,16 @@ class Radio implements JsonSerializable
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $folderName = null;
+
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $created_at;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Gedmo\Timestampable]
-    private ?\DateTimeImmutable $updated_at;
+    private ?\DateTimeImmutable $updatedAt;
 
     public function getId(): ?int
     {
@@ -46,24 +49,36 @@ class Radio implements JsonSerializable
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $created_at;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updated_at;
+
+        return $this;
+    }
+
+    public function getFolderName(): string
+    {
+        return $this->folderName;
+    }
+
+    public function setFolderName(string $folderName): static
+    {
+        $this->folderName = $folderName;
 
         return $this;
     }
@@ -73,8 +88,8 @@ class Radio implements JsonSerializable
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
         ];
     }
 }
