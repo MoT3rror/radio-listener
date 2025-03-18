@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RadioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -29,6 +31,17 @@ class Radio implements JsonSerializable
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Gedmo\Timestampable]
     private ?\DateTimeImmutable $updatedAt;
+
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(targetEntity: Recording::class, mappedBy: 'radio', orphanRemoval: true)]
+    private Collection $recordings;
+
+    public function __construct()
+    {
+        $this->recordings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,5 +104,35 @@ class Radio implements JsonSerializable
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
         ];
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getRecordings(): Collection
+    {
+        return $this->recordings;
+    }
+
+    public function addRecording(Recording $recording): static
+    {
+        if (!$this->recordings->contains($recording)) {
+            $this->recordings->add($recording);
+            $recording->setRadio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecording(Recording $recording): static
+    {
+        if ($this->recordings->removeElement($recording)) {
+            // set the owning side to null (unless already changed)
+            if ($recording->getRadio() === $this) {
+                $recording->setRadio(null);
+            }
+        }
+
+        return $this;
     }
 }
