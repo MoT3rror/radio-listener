@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use App\JsonRepresentative\Date;
 use App\Repository\RecordingRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: RecordingRepository::class)]
-class Recording
+class Recording implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -113,5 +115,15 @@ class Recording
         $this->audioFile = $audioFile;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'startTime' => Date::createFromImmutable($this->startTime),
+            'endTime' => Date::createFromImmutable($this->endTime),
+            'audioFile' => $this->audioFile,
+        ];
     }
 }

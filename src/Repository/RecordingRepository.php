@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Recording;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,17 @@ class RecordingRepository extends ServiceEntityRepository
         parent::__construct($registry, Recording::class);
     }
 
-    //    /**
-    //     * @return Recording[] Returns an array of Recording objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Recording
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findRecordingsByRadioId(int $radioId, DateTime $searchDate): array
+    {
+        return $this->createQueryBuilder('recording')
+            ->andWhere('recording.radio = :radioId')
+            ->andWhere('recording.startTime > :startDate')
+            ->andWhere('recording.startTime < :endDate')
+            ->setParameter('radioId', $radioId)
+            ->setParameter('startDate', $searchDate->format('Y-m-d') . ' 00:00:00')
+            ->setParameter('endDate', $searchDate->format('Y-m-d') . ' 23:59:59')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

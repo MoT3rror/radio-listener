@@ -12,7 +12,7 @@
         let map = [...new Array(24)].map(x => [])
 
         recordings.value.forEach(element => {
-            map[(new Date(element.recording_start).getHours())].push(element)
+            map[(new Date(element.startTime).getHours())].push(element)
         })
 
         return map
@@ -45,7 +45,7 @@
                 <v-list-item
                     v-for="(recording, i) in recordings"
                     :key="recording.id"
-                    :title="recording.recording_start + ' - ' + recording.recording_end"
+                    :title="recording.startTime + ' - ' + recording.endTime"
                     :value="recording.id"
                 ></v-list-item>
             </v-list-group>

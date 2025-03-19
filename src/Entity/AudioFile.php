@@ -6,6 +6,7 @@ use App\Repository\AudioFileRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: AudioFileRepository::class)]
 #[Gedmo\Uploadable(
@@ -13,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
     allowOverwrite: true,
     appendNumber: true
 )]
-class AudioFile
+class AudioFile implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -87,5 +88,16 @@ class AudioFile
         $this->size = $size;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'path' => $this->path,
+            'name' => $this->name,
+            'mimeType' => $this->mimeType,
+            'size' => $this->size,
+        ];
     }
 }
