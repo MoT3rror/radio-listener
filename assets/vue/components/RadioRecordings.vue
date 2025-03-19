@@ -28,6 +28,17 @@
 </script>
 
 <template>
+    <h2>Current Broadcast</h2>
+    <p>
+        <audio controls>
+            <source
+                :src="radio.broadcast_listen_url"
+                type="audio/mpeg"
+                preload="none"
+            >
+        </audio>
+    </p>
+
     <h2>Radio Recordings</h2>
 
     <template v-for="(recordings, index) in recordsByHour" :key="index">

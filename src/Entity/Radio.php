@@ -38,6 +38,9 @@ class Radio implements JsonSerializable
     #[ORM\OneToMany(targetEntity: Recording::class, mappedBy: 'radio', orphanRemoval: true)]
     private Collection $recordings;
 
+    #[ORM\Column(length: 255)]
+    private ?string $broadcastListenUrl = null;
+
     public function __construct()
     {
         $this->recordings = new ArrayCollection();
@@ -96,16 +99,6 @@ class Radio implements JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize(): mixed
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'created_at' => $this->createdAt,
-            'updated_at' => $this->updatedAt,
-        ];
-    }
-
     /**
      * @return Collection<int, Recording>
      */
@@ -134,5 +127,28 @@ class Radio implements JsonSerializable
         }
 
         return $this;
+    }
+
+    public function getBroadcastListenUrl(): ?string
+    {
+        return $this->broadcastListenUrl;
+    }
+
+    public function setBroadcastListenUrl(string $broadcastListenUrl): static
+    {
+        $this->broadcastListenUrl = $broadcastListenUrl;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'broadcast_listen_url' => $this->broadcastListenUrl,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+        ];
     }
 }
