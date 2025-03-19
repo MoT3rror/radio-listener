@@ -20,9 +20,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\RadioFilesFolder:
+    App\Command\ImportRadioFilesCommand:
         arguments:
-            $baseFolder: '%env(RADIO_FILES_FOLDER)%'
+            $uploadableListener: '@gedmo.listener.uploadable'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -36,4 +36,15 @@ services:
             - { name: doctrine.event_listener, event: 'prePersist' }
             - { name: doctrine.event_listener, event: 'onFlush' }
             - { name: doctrine.event_listener, event: 'loadClassMetadata' }
+
+    # Gedmo Uploadable Extension Listener
+    gedmo.listener.uploadable:
+        class: Gedmo\Uploadable\UploadableListener
+        tags:
+            - { name: doctrine.event_listener, event: 'loadClassMetadata'}
+            - { name: doctrine.event_listener, event: 'preFlush'}
+            - { name: doctrine.event_listener, event: 'onFlush'}
+            - { name: doctrine.event_listener, event: 'postFlush'}
+        calls:
+            - [ setAnnotationReader, [ '@gedmo.mapping.driver.attribute' ] ]
             

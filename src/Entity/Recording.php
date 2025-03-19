@@ -34,6 +34,10 @@ class Recording
     #[ORM\JoinColumn(nullable: false)]
     private ?Radio $radio = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AudioFile $audioFile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,7 +66,6 @@ class Recording
 
         return $this;
     }
-
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -96,6 +99,18 @@ class Recording
     public function setRadio(?Radio $radio): static
     {
         $this->radio = $radio;
+
+        return $this;
+    }
+
+    public function getAudioFile(): ?AudioFile
+    {
+        return $this->audioFile;
+    }
+
+    public function setAudioFile(AudioFile $audioFile): static
+    {
+        $this->audioFile = $audioFile;
 
         return $this;
     }

@@ -5,12 +5,14 @@ namespace App\Service;
 
 use App\Entity\Radio;
 use Generator;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use stdClass;
 
 class RadioFilesFolder
 {
     public function __construct(
-        private string $baseFolder,
+        #[Autowire(env: 'RADIO_FILES_FOLDER')]
+        private string $baseFolder = '',
     )
     {}
 
@@ -22,6 +24,7 @@ class RadioFilesFolder
         }
 
         $files = scandir($radioFolder);
+        
         foreach ($files as $file) {
             if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
                 yield $file;
@@ -46,8 +49,25 @@ class RadioFilesFolder
         return $radioFolder . DIRECTORY_SEPARATOR . $fileName;
     }
 
+    public function deleteFiles(Radio $radio, string $fileName): void
+    {
+        $radioFolder = $this->getRadioFolder($radio);
+        if (!is_dir($radioFolder)) {
+            return;
+        }
+
+        foreach (['json', 'wav', 'mp3'] as $extension) {
+            $filePath = $radioFolder . DIRECTORY_SEPARATOR . str_replace('.json', '.' . $extension, $fileName);
+            if (is_file($filePath)) {
+                unlink($filePath);
+            }
+        }
+    }
+
     private function getRadioFolder(Radio $radio): string
     {
         return $this->baseFolder . DIRECTORY_SEPARATOR . $radio->getFolderName();
     }
+
+
 }
