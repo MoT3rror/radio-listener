@@ -94,7 +94,7 @@ class AudioFile implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'path' => $this->path,
+            'path' => str_replace('public', '', $this->path),
             'name' => $this->name,
             'mimeType' => $this->mimeType,
             'size' => $this->size,

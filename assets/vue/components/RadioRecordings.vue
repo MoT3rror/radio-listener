@@ -33,6 +33,12 @@
     <template v-for="(recordings, index) in recordsByHour" :key="index">
         <v-list v-if="recordings.length > 0">
             <v-list-group :value="index">
+                <v-list-subheader
+                    title="Hourly Recording"
+                >
+                    audio controls
+                </v-list-subheader>
+                <hr />
                 <template v-slot:activator="{ props }">
                     <v-list-item
                         v-bind="props"
@@ -40,14 +46,21 @@
                     ></v-list-item>
                 </template>
                 <v-list-item
-                    title="Download hourly recording"
-                ></v-list-item>
-                <v-list-item
                     v-for="(recording, i) in recordings"
                     :key="recording.id"
                     :title="recording.startTime + ' - ' + recording.endTime"
                     :value="recording.id"
-                ></v-list-item>
+                >
+                    <v-list-item-subtitle>
+                        <audio controls>
+                            <source
+                                :src="recording.audioFile.path" 
+                                type="audio/mpeg"
+                                preload="none"
+                            >
+                        </audio>
+                    </v-list-item-subtitle>
+                </v-list-item>
             </v-list-group>
         </v-list>
     </template>
