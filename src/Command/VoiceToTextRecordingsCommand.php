@@ -33,6 +33,8 @@ class VoiceToTextRecordingsCommand extends Command
 
         $recordings = $this->recordingRepository->findRecordingsWithNullVoiceToText();
         foreach ($recordings as $recording) {
+            $output->writeln('Recording ID: ' . $recording->getId());
+
             $mp3FilePath = $recording->getAudioFile()->getPath();
             $voiceToText = $this->convertMp3ToText($mp3FilePath, $output);
             $recording->setVoiceToText($voiceToText);
@@ -43,6 +45,10 @@ class VoiceToTextRecordingsCommand extends Command
                 return Command::SUCCESS;
             }
         }
+
+        $output->writeln('All recordings have been processed.');
+
+        return Command::SUCCESS;
     }
 
     public function convertMp3ToText(string $mp3FilePath, OutputInterface $output): string

@@ -67,8 +67,12 @@ class ImportRadioFilesCommand extends Command
                 $this->entityManager->flush();
 
                 $this->radioFilesFolder->deleteFiles($radio, $file);
+
+                $output->writeln('Imported ' . $file);
             }
         }
+
+        $output->writeln('Imported all radio files');
 
         return Command::SUCCESS;
     }
