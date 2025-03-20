@@ -30,11 +30,10 @@
 <template>
     <h2>Current Broadcast</h2>
     <p>
-        <audio controls>
+        <audio controls preload="none">
             <source
                 :src="radio.broadcast_listen_url"
                 type="audio/mpeg"
-                preload="none"
             >
         </audio>
     </p>
@@ -63,11 +62,10 @@
                     :value="recording.id"
                 >
                     <v-list-item-subtitle>
-                        <audio controls>
+                        <audio controls preload="none">
                             <source
                                 :src="recording.audioFile.path" 
                                 type="audio/mpeg"
-                                preload="none"
                             >
                         </audio>
                     </v-list-item-subtitle>
