@@ -68,16 +68,22 @@
                     :title="recording.startTime + ' - ' + recording.endTime"
                     :value="recording.id"
                 >
-                    <v-list-item-subtitle>
-                        <audio controls preload="none">
-                            <source
-                                :src="recording.audioFile.path" 
-                                type="audio/mpeg"
-                            >
-                        </audio>
-                    </v-list-item-subtitle>
+                    <pre>{{ recording.voiceToText }}</pre>
+    
+                    <audio controls preload="none">
+                        <source
+                            :src="recording.audioFile.path" 
+                            type="audio/mpeg"
+                        >
+                    </audio>
                 </v-list-item>
             </v-list-group>
         </v-list>
     </template>
 </template> 
+
+<style lang="css">
+.v-list-item-title {
+    font-weight: bold;
+}
+</style>
