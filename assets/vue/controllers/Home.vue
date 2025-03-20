@@ -37,5 +37,10 @@
         radios: Array,
     });
     const radioSelected = ref(props.radios[0].id);
-    const dateSelected = ref(new Date());
+
+    let currentDate = new Date();
+    // set hours to get around timezone issues
+    currentDate.setHours(12);
+
+    const dateSelected = ref(currentDate);
 </script>
