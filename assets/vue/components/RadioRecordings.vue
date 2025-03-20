@@ -7,6 +7,7 @@
     })
     const recordings = ref([])
     const opened = ref(true)
+    const loading = ref(false)
 
     let recordsByHour = computed(() => {
         let map = [...new Array(24)].map(x => [])
@@ -19,10 +20,12 @@
     })
 
     watchEffect(() => {
+        loading.value = true
         fetch(`/api/radio/${radio.id}/recordings?date=${date.toISOString()}`)
             .then(response => response.json())
             .then(data => {
                 recordings.value = data.data
+                loading.value = false
             })
     })
 </script>
@@ -39,6 +42,10 @@
     </p>
 
     <h2>Radio Recordings</h2>
+
+    <div v-if="loading">
+        <v-progress-linear indeterminate></v-progress-linear>
+    </div>
 
     <template v-for="(recordings, index) in recordsByHour" :key="index">
         <v-list v-if="recordings.length > 0">
