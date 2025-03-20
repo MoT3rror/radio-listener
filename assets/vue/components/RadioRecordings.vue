@@ -65,7 +65,7 @@
                 <v-list-item
                     v-for="(recording, i) in recordings"
                     :key="recording.id"
-                    :title="recording.startTime + ' - ' + recording.endTime"
+                    :title="new Date(recording.startTime).toLocaleTimeString() + ' - ' + new Date(recording.endTime).toLocaleTimeString()"
                     :value="recording.id"
                 >
                     <pre>{{ recording.voiceToText }}</pre>
