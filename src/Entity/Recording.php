@@ -40,6 +40,9 @@ class Recording implements JsonSerializable
     #[ORM\JoinColumn(nullable: false)]
     private ?AudioFile $audioFile = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $voiceToText = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +120,18 @@ class Recording implements JsonSerializable
         return $this;
     }
 
+    public function getVoiceToText(): ?string
+    {
+        return $this->voiceToText;
+    }
+
+    public function setVoiceToText(?string $voiceToText): static
+    {
+        $this->voiceToText = $voiceToText;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -124,6 +139,7 @@ class Recording implements JsonSerializable
             'startTime' => Date::createFromImmutable($this->startTime),
             'endTime' => Date::createFromImmutable($this->endTime),
             'audioFile' => $this->audioFile,
+            'voiceToText' => $this->voiceToText,
         ];
     }
 }

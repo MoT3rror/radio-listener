@@ -23,7 +23,7 @@ use Symfony\Component\Process\Process;
 
 #[AsCommand(
     name: 'app:import-radio-files',
-    description: 'Add a short description for your command',
+    description: 'Import radio files from folder and convert WAV to MP3',
 )]
 class ImportRadioFilesCommand extends Command
 {

@@ -30,4 +30,13 @@ class RecordingRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findRecordingsWithNullVoiceToText(): array
+    {
+        return $this->createQueryBuilder('recording')
+            ->andWhere('recording.voiceToText IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
