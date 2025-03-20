@@ -8,6 +8,7 @@ use App\Entity\Recording;
 use App\Repository\RadioRepository;
 use App\Service\CustomFileInfo;
 use App\Service\RadioFilesFolder;
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
@@ -68,11 +69,11 @@ class ImportRadioFilesCommand extends Command
 
                 $this->radioFilesFolder->deleteFiles($radio, $file);
 
-                $output->writeln('Imported ' . $file);
+                $output->writeln((new DateTime())->format(DateTime::ATOM) . 'Imported ' . $file);
             }
         }
 
-        $output->writeln('Imported all radio files');
+        $output->writeln((new DateTime())->format(DateTime::ATOM) . 'Imported all radio files');
 
         return Command::SUCCESS;
     }

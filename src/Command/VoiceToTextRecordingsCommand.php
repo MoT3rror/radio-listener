@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Repository\RecordingRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +34,7 @@ class VoiceToTextRecordingsCommand extends Command
 
         $recordings = $this->recordingRepository->findRecordingsWithNullVoiceToText();
         foreach ($recordings as $recording) {
-            $output->writeln('Recording ID: ' . $recording->getId());
+            $output->writeln((new DateTime())->format(DateTime::ATOM) . 'Recording ID: ' . $recording->getId());
 
             $mp3FilePath = $recording->getAudioFile()->getPath();
             $voiceToText = $this->convertMp3ToText($mp3FilePath, $output);
@@ -46,7 +47,7 @@ class VoiceToTextRecordingsCommand extends Command
             }
         }
 
-        $output->writeln('All recordings have been processed.');
+        $output->writeln((new DateTime())->format(DateTime::ATOM) . 'All recordings have been processed.');
 
         return Command::SUCCESS;
     }
