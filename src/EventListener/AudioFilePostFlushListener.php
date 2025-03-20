@@ -30,7 +30,7 @@ final class AudioFilePostFlushListener
             );
         }
         $path = $baseFolder . '/' . substr($number, 6, 3) . '-' . $audioFile->getName();
-        rename($audioFile->getPath(), $path);
+        @rename($audioFile->getPath(), $path);
         
         $audioFile->setPath($path);
         $this->entityManager->flush();
