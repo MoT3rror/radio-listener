@@ -37,7 +37,12 @@ class VoiceToTextRecordingsCommand extends Command
             $output->writeln((new DateTime())->format(DateTime::ATOM) . 'Recording ID: ' . $recording->getId());
 
             $mp3FilePath = $recording->getAudioFile()->getPath();
-            $voiceToText = $this->convertMp3ToText($mp3FilePath, $output);
+            
+            try {
+                $voiceToText = $this->convertMp3ToText($mp3FilePath, $output);
+            } catch (\Exception $e) {
+                $voiceToText = 'Error: ' . $e->getMessage();
+            }
             $recording->setVoiceToText($voiceToText);
 
             $this->entityManager->flush();
