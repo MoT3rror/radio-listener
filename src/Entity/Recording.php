@@ -134,12 +134,17 @@ class Recording implements JsonSerializable
 
     public function jsonSerialize(): array
     {
+        $voiceToText = $this->voiceToText;
+        if (str_contains($this->voiceToText, 'timeout') && str_contains($this->voiceToText, 'whisper')) {
+            $voiceToText = 'Error: Timeout';
+        }
+        
         return [
             'id' => $this->id,
             'startTime' => Date::createFromImmutable($this->startTime),
             'endTime' => Date::createFromImmutable($this->endTime),
             'audioFile' => $this->audioFile,
-            'voiceToText' => $this->voiceToText,
+            'voiceToText' => $voiceToText,
         ];
     }
 }
